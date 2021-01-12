@@ -29,7 +29,7 @@ public class YxCategoryMapperTest {
     @Test
     public void orderTest() {
         File file = FileUtil.file("C:\\Users\\Administrator\\Desktop\\2020年严选上架产品目录20200807_test.xlsx");
-        //File file = FileUtil.file("D:\\Windows\\Documents\\工作文档\\2020年严选上架产品目录20200807_test.xlsx");
+        //File file = MyFileUtil.file("D:\\Windows\\Documents\\工作文档\\2020年严选上架产品目录20200807_test.xlsx");
         ExcelReader reader = ExcelUtil.getReader(file);
         List<Map<String, Object>> readAllMap = reader.readAll();
         List<String> goodSqlList = new ArrayList<>();
