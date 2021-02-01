@@ -4,10 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mytool.base.utils.MyFileUtil;
+import com.mytool.springModel.SpringFestivalFileInviteVO;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class JsonReadTest {
                 System.out.println(str);
             });
 
-            MyFileUtil.pushListToFile(deleteEsStrList,"C:\\Users\\Administrator\\Desktop\\es删除数据.txt");
+            MyFileUtil.pushListToFile(deleteEsStrList, "C:\\Users\\Administrator\\Desktop\\es删除数据.txt");
 
             System.out.println("\n\n" + deleteEsStrList.size());
 
@@ -58,12 +58,12 @@ public class JsonReadTest {
     }
 
     @Test
-    public void escapeTest(){
+    public void escapeTest() {
         //es检索时，出现特殊字符而没有做正确的处理，那么es将无法识别这条检索语句，则会抛出异常，此时就的对检索语句进行转义:
         String title = "title+-&&||!(){}[]^\"~*?:\\";
         title = QueryParser.escape(title);// 主要就是这一句把特殊字符都转义,那么lucene就可以识别
         System.out.println(title);
-        String json="{\n" +
+        String json = "{\n" +
                 "    \"query\": {\n" +
                 "        \"bool\": {\n" +
                 "            \"must\": [\n" +
@@ -110,8 +110,25 @@ public class JsonReadTest {
                 "        }\n" +
                 "    }\n" +
                 "}";
-        JSONObject jsonObject= JSON.parseObject(json);
-        String jsonStr=jsonObject.toJSONString();
+        JSONObject jsonObject = JSON.parseObject(json);
+        String jsonStr = jsonObject.toJSONString();
         System.out.println(jsonStr);
+    }
+
+    @Test
+    public void name() {
+        String str = "[{\"id\":null,\"type\":1,\"name\":\"小赖\"},{\"id\":15322,\"type\":1,\"name\":\"邓小俊\"},{\"id\":14202,\"type\":1,\"name\":\"邓文俊\"}]";
+        JSONArray array = JSON.parseArray(str);
+        if (array.size() > 0) {
+            for (int i = 0; i < array.size(); i++) {
+                JSONObject jsonObject = array.getJSONObject(i);
+                Long userId = jsonObject.getLong("id");
+                String name = jsonObject.getString("name");
+                Integer type = jsonObject.getInteger("type");
+                System.out.println("" + userId + name + type);
+            }
+        }
+        List<SpringFestivalFileInviteVO>  voList= JSON.parseArray(str, SpringFestivalFileInviteVO.class);
+        System.out.println(array.size());
     }
 }

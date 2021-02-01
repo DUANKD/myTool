@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author duankd
@@ -13,10 +14,22 @@ import java.util.Map;
 public class MapTest {
 
     @Test
-    public void ashMapTest(){
-        Map<String,String>  map=new HashMap<>();
-        int cap =1;
+    public void ashMapTest() {
+        Map<String, String> map = new HashMap<>();
+        int cap = 1;
         int n = cap - 1;
         n |= n >>> 1;
+    }
+
+    @Test
+    public void name() {
+        ConcurrentHashMap<String, String> concurrentHashMap = new ConcurrentHashMap();
+        concurrentHashMap.put("a", "a");
+        System.out.println(concurrentHashMap);
+
+    }
+
+    @Test
+    public void name1() {
     }
 }

@@ -6,6 +6,7 @@ import cn.hutool.core.io.file.FileWriter;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,6 +64,61 @@ public class MyFileUtil {
         }
 
         return null;
+    }
+
+
+    /**
+     * 的撒
+     *
+     * @param fileName
+     * @return
+     */
+    public static List<String> getFromFile(String fileName) {
+        try {
+            //默认UTF-8编码，可以在构造中传入第二个参数做为编码
+            FileReader fileReader = new FileReader(fileName);
+            List<String> result = fileReader.readLines();
+            return result;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static List<Long> getLongListFromIndex(String fileName, int index) {
+        List<String> result = getFromFile(fileName);
+        List<Long> longList = new ArrayList<>();
+        if (result.size() >= index) {
+            for (int i = index - 1; i < result.size(); i++) {
+                longList.add(Long.valueOf(result.get(i)));
+            }
+        }
+        return longList;
+    }
+
+    /**
+     * 从1开始
+     *
+     * @param fileName
+     * @param index
+     * @return
+     */
+    public static List<List<Long>> getLongListFromStartIndex(String fileName, int index, int pageSize) {
+        List<List<Long>> listList = new ArrayList<>();
+        List<String> result = getFromFile(fileName);
+        if (result != null && result.size() >= index) {
+            int pageNum = result.size() / pageSize;
+            for (int i = 0; i < pageNum; i++) {
+                List<Long> longList = new ArrayList<>();
+                for (int j = index - 1; j < result.size(); j++) {
+                    longList.add(Long.valueOf(result.get(j)));
+                }
+                listList.add(longList);
+                index += pageSize;
+            }
+        }
+        return listList;
     }
 
 
