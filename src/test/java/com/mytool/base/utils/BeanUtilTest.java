@@ -2,9 +2,6 @@ package com.mytool.base.utils;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.mytool.springModel.SpringFestivalInviteUserVO;
-import com.mytool.springModel.SpringFestivalRecord;
-import com.mytool.springModel.SpringFestivalRecordVO;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
@@ -39,91 +36,8 @@ public class BeanUtilTest {
         if (bigDecimal.compareTo(bigDecimal1) == 1) {
             System.out.println("大于");
         }
-        SpringFestivalRecord springFestivalRecord = new SpringFestivalRecord();
-        springFestivalRecord.setUserId(1L);
-        springFestivalRecord.setFirstCorpId(1L);
-        springFestivalRecord.setCreateTime(new Date());
-        springFestivalRecord.setJoinNo(55);
-        springFestivalRecord.setJoinRate(bigDecimal);
-        springFestivalRecord.setLoginNum(55);
-        springFestivalRecord.setLoginNo(5);
-        springFestivalRecord.setLoginRate(bigDecimal);
-        springFestivalRecord.setShareNum(7);
-        springFestivalRecord.setInviteNum(10);
 
-        {
-            List<SpringFestivalInviteUserVO> tempList = new ArrayList<>();
-            {
-                SpringFestivalInviteUserVO inviteVO = new SpringFestivalInviteUserVO();
-                inviteVO.setInviteUserId(1L);
-                inviteVO.setInviteUserName("aaa");
-                inviteVO.setInviteUserNum(1);
-                tempList.add(inviteVO);
-            }
-            {
-                SpringFestivalInviteUserVO inviteVO = new SpringFestivalInviteUserVO();
-                inviteVO.setInviteUserId(2L);
-                inviteVO.setInviteUserName("ssss");
-                inviteVO.setInviteUserNum(1);
-                tempList.add(inviteVO);
-            }
-            {
-                SpringFestivalInviteUserVO inviteVO = new SpringFestivalInviteUserVO();
-                inviteVO.setInviteUserId(3L);
-                inviteVO.setInviteUserName("ddd");
-                inviteVO.setInviteUserNum(1);
-                tempList.add(inviteVO);
-            }
-            {
-                SpringFestivalInviteUserVO inviteVO = new SpringFestivalInviteUserVO();
-                inviteVO.setInviteUserId(4L);
-                inviteVO.setInviteUserName("ffff");
-                inviteVO.setInviteUserNum(1);
-                tempList.add(inviteVO);
-            }
-            {
-                SpringFestivalInviteUserVO inviteVO = new SpringFestivalInviteUserVO();
-                inviteVO.setInviteUserId(5L);
-                inviteVO.setInviteUserName("gggg");
-                inviteVO.setInviteUserNum(1);
-                tempList.add(inviteVO);
-            }
-            {
-                SpringFestivalInviteUserVO inviteVO = new SpringFestivalInviteUserVO();
-                inviteVO.setInviteUserId(6L);
-                inviteVO.setInviteUserName("hhhh");
-                inviteVO.setInviteUserNum(1);
-                tempList.add(inviteVO);
-            }
-            String str = JSONObject.toJSONString(tempList);
-            springFestivalRecord.setInviteUserIds(str);
-        }
-
-        springFestivalRecord.setMaxWorkingTimeWindow(1);
-        springFestivalRecord.setUploadNum(100);
-        springFestivalRecord.setDownloadNum(400);
-        springFestivalRecord.setUploadDownloadNum(500);
-        springFestivalRecord.setUploadDownloadNo(5);
-        springFestivalRecord.setUploadDownloadRate(bigDecimal);
-        springFestivalRecord.setAdminFlag(41554L);
-
-        SpringFestivalRecordVO recordVO = new SpringFestivalRecordVO();
-        BeanUtil.copyProperties(springFestivalRecord, recordVO);
-        if (springFestivalRecord.getAdminFlag() > 0) {
-            recordVO.setAdminFlag(true);
-        } else {
-            recordVO.setAdminFlag(false);
-        }
-
-        if (StringUtils.isEmpty(springFestivalRecord.getInviteUserIds())) {
-            recordVO.setInviteUsers(null);
-        } else {
-            List<SpringFestivalInviteUserVO> inviteUsers = JSONObject.parseArray(springFestivalRecord.getInviteUserIds(), SpringFestivalInviteUserVO.class);
-            recordVO.setInviteUsers(inviteUsers);
-        }
-        recordVO.setKeywordFlag(1);
-
-        System.out.println(recordVO);
+        //BeanUtil.copyProperties(springFestivalRecord, recordVO);
     }
 
 

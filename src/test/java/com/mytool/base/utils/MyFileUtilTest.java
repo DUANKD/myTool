@@ -1,6 +1,6 @@
 package com.mytool.base.utils;
 
-import com.mytool.springModel.SpringFestivalDataVO;
+import cn.hutool.extra.spring.SpringUtil;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -37,11 +37,14 @@ class MyFileUtilTest {
     }
 
 
+    /**
+     * 流式读取
+     */
     @Test
     void name() {
         String fileName = "/testFiles/spring_marketing.txt";
         //String fileName = "com/mytool/file/spring_marketing.txt";
-        List<SpringFestivalDataVO> dataVOList = new ArrayList<>();
+        List<String> dataVOList = new ArrayList<>();
         try {
             //FileReader fr = new FileReader(fileName);
             //File file = new File(fileName);
@@ -52,8 +55,7 @@ class MyFileUtilTest {
             String str;
             // 按行读取字符串
             while ((str = bf.readLine()) != null) {
-                SpringFestivalDataVO dataVO = SpringUtil.getRecordFromStr(str);
-                dataVOList.add(dataVO);
+                dataVOList.add(str);
             }
             bf.close();
             inputStream.close();

@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mytool.base.utils.MyFileUtil;
-import com.mytool.springModel.SpringFestivalFileInviteVO;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.junit.Test;
 
@@ -128,7 +127,7 @@ public class JsonReadTest {
                 System.out.println("" + userId + name + type);
             }
         }
-        List<SpringFestivalFileInviteVO>  voList= JSON.parseArray(str, SpringFestivalFileInviteVO.class);
+        List<String> voList = JSON.parseArray(str, String.class);
         System.out.println(array.size());
     }
 }
