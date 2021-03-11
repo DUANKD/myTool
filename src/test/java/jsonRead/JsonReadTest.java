@@ -111,6 +111,12 @@ public class JsonReadTest {
                 "}";
         JSONObject jsonObject = JSON.parseObject(json);
         String jsonStr = jsonObject.toJSONString();
+        String test = null;
+        String test1 = JSON.toJSONString(test);
+        List<String> stringList=null;
+        for(String a:stringList){
+            System.out.println(a);
+        }
         System.out.println(jsonStr);
     }
 

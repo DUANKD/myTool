@@ -19,12 +19,21 @@ public class MapTest {
         int cap = 1;
         int n = cap - 1;
         n |= n >>> 1;
+        map.put("", "");
+        map.get("");
+        System.out.println("");
     }
 
     @Test
     public void name() {
-        ConcurrentHashMap<String, String> concurrentHashMap = new ConcurrentHashMap();
+        int a = 1 << 30;
+        int a1 = a >>> 1;
+        int b1 = -1 >>> 1;
+        int b2 = -1 >> 4;
+        ConcurrentHashMap<String, String> concurrentHashMap = new ConcurrentHashMap(16);
         concurrentHashMap.put("a", "a");
+        concurrentHashMap.put("b", "a");
+        concurrentHashMap.put("b", "a");
         System.out.println(concurrentHashMap);
 
     }

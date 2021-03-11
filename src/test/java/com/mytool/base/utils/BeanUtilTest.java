@@ -1,6 +1,5 @@
 package com.mytool.base.utils;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
@@ -63,5 +62,11 @@ public class BeanUtilTest {
         } else {
             return bigDecimal;
         }
+    }
+
+    @Test
+    void getBeanClass() {
+        Long aa= Long.valueOf(1);
+        BeanUtil.getBeanClass(aa);
     }
 }
