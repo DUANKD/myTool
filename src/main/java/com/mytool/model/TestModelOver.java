@@ -8,7 +8,6 @@ import lombok.Data;
  * @date 2021-01-13 9:53:01
  */
 @Data
-public class TestModel {
-    private String context;
-    private Long longNumber;
+public class TestModelOver extends TestModel {
+    private String context1;
 }

@@ -9,6 +9,7 @@ package DateUtilTest;
  * @Date: 2020-08-2020/8/11 11:14:53
  */
 
+import com.mytool.base.utils.DateUtil;
 import org.junit.Test;
 
 import java.time.Clock;
@@ -29,7 +30,7 @@ public class DateUtilTest {
 
     @Test
     public void getStaticDate() {
-        long time1=System.currentTimeMillis();
+        long time1 = System.currentTimeMillis();
         LocalDateTime dateTime = LocalDateTime.now();
         Date date = Date.from(Clock.systemDefaultZone().instant());
         System.out.println(dateTime.toString() + date.toString());
@@ -38,17 +39,25 @@ public class DateUtilTest {
 
     @Test
     public void getStaticDateTime() {
-        long time1=System.currentTimeMillis();
+        long time1 = System.currentTimeMillis();
         for (int i = 0; i < 100; i++) {
             LocalDateTime dateTime = LocalDateTime.now();
         }
-        long time2=System.currentTimeMillis();
-        System.out.println(time2-time1);
+        long time2 = System.currentTimeMillis();
+        System.out.println(time2 - time1);
         for (int i = 0; i < 100; i++) {
             Date date = Date.from(Clock.systemDefaultZone().instant());
         }
-        long time3=System.currentTimeMillis();
-        System.out.println(time3 -time2);
+        long time3 = System.currentTimeMillis();
+        System.out.println(time3 - time2);
         System.out.println("end");
+    }
+
+    @Test
+    public void isLegalDate() {
+        String date = "2021-1-28 12:5:5";
+        String format = "yyyy-MM-dd HH:mm:ss";
+        boolean result = DateUtil.isLegalDate(date, format);
+        System.out.println(result);
     }
 }

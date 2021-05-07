@@ -30,7 +30,7 @@ public class MapTest {
         int a1 = a >>> 1;
         int b1 = -1 >>> 1;
         int b2 = -1 >> 4;
-        ConcurrentHashMap<String, String> concurrentHashMap = new ConcurrentHashMap(16);
+        ConcurrentHashMap<String, String> concurrentHashMap = new ConcurrentHashMap<>(16);
         concurrentHashMap.put("a", "a");
         concurrentHashMap.put("b", "a");
         concurrentHashMap.put("b", "a");

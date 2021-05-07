@@ -10,27 +10,51 @@ import org.junit.Test;
  */
 public class StringTest {
 
-    private static String testStr="aaa";
-
+    private static String testStr = "aaa";
 
 
     @Test
-    public void transferTest(){
-        String testStr1="aaa";
+    public void transferTest() {
+        String testStr1 = "aaa";
         changeStr(testStr1);
         System.out.println(testStr1);
-        TestModel testModel=new TestModel();
+        TestModel testModel = new TestModel();
         testModel.setContext("testStr");
         changeTestModel(testModel);
         System.out.println(testModel.getContext());
     }
 
-    private static String changeStr(String str){
-        str="bbbb";
+    private static String changeStr(String str) {
+        str = "bbbb";
         return str;
     }
 
-    private static void changeTestModel(TestModel testModel){
+    private static void changeTestModel(TestModel testModel) {
         testModel.setContext("bbbb");
+    }
+
+    @Test
+    public void replace() {
+        String a = "We are family";
+        String b = a.replace(" ", "%20");
+        System.out.println(b);
+    }
+
+    @Test
+    public void transferIntTest() {
+        String rights = "111111111111";
+        long intNum = Long.parseLong(rights);
+        long result = intNum | 0b000000000000;
+        System.out.println(result);
+    }
+
+    @Test
+    public void forcedConversion() {
+        Integer a= 255;
+        Object b=a;
+        String c1=(String)b;
+        String c2=a.toString();
+        String c3=b.toString();
+        System.out.println(c2);
     }
 }
