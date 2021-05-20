@@ -15,6 +15,7 @@ public class ReadFileUtil {
 
     /**
      * 读取文件
+     *
      * @param bufSize
      * @param fileChannelIn
      * @param readBuffer
@@ -31,6 +32,7 @@ public class ReadFileUtil {
         String encode = "GBK";
 //      String encode = "UTF-8";
         try {
+            long lineAllNum = 0L;
             //temp：由于是按固定字节读取，在一次读取中，第一行和最后一行经常是不完整的行，因此定义此变量来存储上次的最后一行和这次的第一行的内容，
             //并将之连接成完成的一行，否则会出现汉字被拆分成2个字节，并被提前转换成字符串而乱码的问题
             byte[] temp = new byte[0];
@@ -42,14 +44,30 @@ public class ReadFileUtil {
                 readBuffer.clear();
 
                 int startNum = 0;
-                //换行符
+                /**
+                 * Unix系统里，每行结尾只有“<换行>”，即“\n”；
+                 * Windows系统里面，每行结尾是“<回车><换行>”，即“\r\n”；
+                 * Mac系统里，每行结尾是“<回车>”,即“\r”。
+                 */
+                //换行符 \n
                 int LF = 10;
-                //回车符
+                //回车符 \r
                 int CR = 13;
                 boolean hasLF = false;//是否有换行符
+                boolean hasCR = false;//是否有换行符
                 for (int i = 0; i < rSize; i++) {
-                    if (bs[i] == LF) {
-                        hasLF = true;
+                    if (bs[i] == CR || bs[i] == LF) {
+                        if (bs[i] == CR) {
+                            hasCR = true;
+                        } else if (i + 1 < rSize && bs[i + 1] == LF) {
+                            hasLF = true;
+                        }
+                        if (bs[i] == LF) {
+                            hasLF = true;
+                        }
+                        if (hasLF && hasCR) {
+                            i--;
+                        }
                         int tempNum = temp.length;
                         int lineNum = i - startNum;
                         //数组大小已经去掉换行符
@@ -62,19 +80,30 @@ public class ReadFileUtil {
                         //一行完整的字符串(过滤了换行和回车)
                         String line = new String(lineByte, 0, lineByte.length, encode);
                         dataList.add(line);
-                        //System.out.println(line);
+                        //打印
+                        if (lineAllNum == 0) {
+                            System.out.println(++lineAllNum + "行->" + line);
+                        } else {
+                            System.out.println(++lineAllNum + "行->" + Long.valueOf(line));
+                        }
+
                         writeFileByLine(fileChannelOut, writeBuffer, line + enter);
 
                         //过滤回车符和换行符
-                        if (i + 1 < rSize && bs[i + 1] == CR) {
+                        if (i + 1 < rSize && bs[i + 1] == LF) {
                             startNum = i + 2;
+                            //跳过下一个
+                            i++;
                         } else {
                             startNum = i + 1;
                         }
 
                     }
                 }
-                if (hasLF) {
+                if (hasLF || hasCR) {
+                    if (hasLF && hasCR) {
+                        startNum++;
+                    }
                     temp = new byte[bs.length - startNum];
                     System.arraycopy(bs, startNum, temp, 0, temp.length);
                 } else {
@@ -89,7 +118,12 @@ public class ReadFileUtil {
                 //兼容文件最后一行没有换行的情况
                 String line = new String(temp, 0, temp.length, encode);
                 dataList.add(line);
-                //System.out.println(line);
+                //打印
+                if (lineAllNum == 0) {
+                    System.out.println(++lineAllNum + "行->" + line);
+                } else {
+                    System.out.println(++lineAllNum + "行->" + Long.valueOf(line));
+                }
                 writeFileByLine(fileChannelOut, writeBuffer, line + enter);
             }
         } catch (IOException e) {
@@ -107,6 +141,9 @@ public class ReadFileUtil {
     @SuppressWarnings("static-access")
     public static void writeFileByLine(FileChannel fileChannelOut, ByteBuffer writeBuffer,
                                        String line) {
+        if (fileChannelOut == null) {
+            return;
+        }
         try {
             fileChannelOut.write(writeBuffer.wrap(line.getBytes("UTF-8")), fileChannelOut.size());
         } catch (IOException e) {
