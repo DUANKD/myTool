@@ -50,6 +50,7 @@ public class ListTest {
             TestModel temp = new TestModel();
             temp.setContext("a");
             a.add(temp);
+            a.add(temp);
             b.add(temp);
         }
         {
