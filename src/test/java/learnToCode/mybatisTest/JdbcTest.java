@@ -3,6 +3,8 @@ package learnToCode.mybatisTest;
 import org.junit.Test;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JdbcTest {
 
@@ -41,6 +43,11 @@ public class JdbcTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        Map<String, String> map = new HashMap();
+        map.put("", "");
+        String value = map.get("");
+        System.out.println(value);
 
     }
 }
