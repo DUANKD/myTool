@@ -50,11 +50,19 @@ public class StringTest {
 
     @Test
     public void forcedConversion() {
-        Integer a= 255;
-        Object b=a;
-        String c1=(String)b;
-        String c2=a.toString();
-        String c3=b.toString();
+        Integer a = 255;
+        Object b = a;
+        String c1 = (String) b;
+        String c2 = a.toString();
+        String c3 = b.toString();
         System.out.println(c2);
+    }
+
+    @Test
+    public void subString() {
+        String a = "abcdef";
+        String b = a.substring(0, 1);
+        String c = a.substring(6 - 2, 6);
+        System.out.println(a);
     }
 }
