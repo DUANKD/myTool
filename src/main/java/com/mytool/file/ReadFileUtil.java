@@ -29,8 +29,8 @@ public class ReadFileUtil {
         List<String> dataList = new ArrayList<String>();
         byte[] lineByte = new byte[0];
 
-        String encode = "GBK";
-//      String encode = "UTF-8";
+        //String encode = "GBK";
+      String encode = "UTF-8";
         try {
             long lineAllNum = 0L;
             //temp：由于是按固定字节读取，在一次读取中，第一行和最后一行经常是不完整的行，因此定义此变量来存储上次的最后一行和这次的第一行的内容，
@@ -84,7 +84,7 @@ public class ReadFileUtil {
                         if (lineAllNum == 0) {
                             System.out.println(++lineAllNum + "行->" + line);
                         } else {
-                            System.out.println(++lineAllNum + "行->" + Long.valueOf(line));
+                            System.out.println(++lineAllNum + "行->" + line);
                         }
 
                         writeFileByLine(fileChannelOut, writeBuffer, line + enter);
