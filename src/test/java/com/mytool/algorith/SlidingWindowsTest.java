@@ -36,4 +36,5 @@ class SlidingWindowsTest {
         int result = SlidingWindows.lengthOfLongestSubstring(str);
         System.out.println(result);
     }
+
 }
