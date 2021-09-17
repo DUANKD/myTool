@@ -65,4 +65,18 @@ public class StringTest {
         String c = a.substring(6 - 2, 6);
         System.out.println(a);
     }
+
+    @Test
+    public void name1() {
+        String header = "JSESSIONID=aaa1V58iTkG_d8_fEhMRx; path=/";
+        String result = String.format("%s; %s", header, "SameSite=None; Secure;");
+        System.out.println(result);
+    }
+
+    @Test
+    public void name2() {
+        String cookieStr = "Cookie[JSESSIONID=aaaXvbOrHb-hh9_18aNRx]";
+        String result = cookieStr.substring(cookieStr.indexOf("[")+1, cookieStr.lastIndexOf("]"));
+        System.out.println(result);
+    }
 }

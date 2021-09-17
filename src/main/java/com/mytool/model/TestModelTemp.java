@@ -12,8 +12,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TestModel {
+public class TestModelTemp {
     private String context;
     private Long longNumber;
-    //private Long longNumber2;
+    private Long longNumber1;
+    private Long longNumber2;
 }

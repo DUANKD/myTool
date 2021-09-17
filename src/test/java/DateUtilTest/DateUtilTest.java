@@ -60,4 +60,11 @@ public class DateUtilTest {
         boolean result = DateUtil.isLegalDate(date, format);
         System.out.println(result);
     }
+
+    @Test
+    public void toDateFirstSeconds() {
+        Date date = new Date();
+        Date newDate = DateUtil.toDateFirstSeconds(date);
+        System.out.println(newDate);
+    }
 }

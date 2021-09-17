@@ -1,13 +1,11 @@
 package com.mytool.base.utils;
 
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang3.StringUtils;
+import com.mytool.model.TestModel;
+import com.mytool.model.TestModelTemp;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author duankd
@@ -15,6 +13,15 @@ import java.util.List;
  * @date 2021-01-21 12:16:15
  */
 public class BeanUtilTest {
+    @Test
+    void copy() {
+        TestModel testModel = new TestModel();
+        testModel.setContext("123");
+        testModel.setLongNumber(1234L);
+        TestModelTemp testModelTemp = new TestModelTemp();
+        BeanUtils.copyProperties(testModel, testModelTemp);
+        System.out.println(testModelTemp);
+    }
 
     @Test
     void name() {
@@ -38,7 +45,6 @@ public class BeanUtilTest {
 
         //BeanUtil.copyProperties(springFestivalRecord, recordVO);
     }
-
 
     @Test
     void name1() {
@@ -66,7 +72,7 @@ public class BeanUtilTest {
 
     @Test
     void getBeanClass() {
-        Long aa= Long.valueOf(1);
+        Long aa = Long.valueOf(1);
         BeanUtil.getBeanClass(aa);
     }
 }
