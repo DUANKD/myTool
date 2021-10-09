@@ -3,6 +3,7 @@ package json;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mytool.model.TestModel;
 import com.mytool.model.TestModelTemp;
 import org.junit.Test;
@@ -71,5 +72,13 @@ public class JsonTransformTest {
         String str="{\"context\":\"aaa\",\"longNumber\":1,\"longNumber2\":2}";
         TestModel testModel =JSON.parseObject(str,TestModel.class);
         System.out.println(testModel);
+    }
+
+    @Test
+    public void jsonTransform4Str1() {
+        String str="\"214253198913\\t1130131300\\t330916870739089\\t60\\t19\\t2021-07-30 15:39:27\\t183.63.90.60\\t1\\t恢复 ,回收站测试 (75).action\\t广东,广州\\t4142533391441568\\t\\t\\t\"";
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+       String result= gson.fromJson(str,String.class);
+        System.out.println(result);
     }
 }

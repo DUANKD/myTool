@@ -3,6 +3,7 @@ package com.mytool.base.utils;
 import org.apache.commons.lang.StringUtils;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -325,5 +326,36 @@ public class DateUtil {
         //增加一天的毫秒-1
         date.setTime(newDate.getTime() + dayMis - 1);
         return date;
+    }
+
+    /**
+     *  使用ThreadLocal, 也是将共享变量变为独享，线程独享肯定能比方法独享在并发环境中能减少不少创建对象的开销。
+     *  如果对性能要求比较高的情况下，一般推荐使用这种方法。
+     */
+    private static ThreadLocal<DateFormat> sdfThreadLocal =  new ThreadLocal<DateFormat>(){
+        @Override
+        public SimpleDateFormat initialValue(){
+            return  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        }
+    };
+
+    public static  String formatDate(Date date)throws ParseException {
+        return sdfThreadLocal.get().format(date);
+    }
+
+    public static Date parse(String strDate) throws ParseException {
+
+        return sdfThreadLocal.get().parse(strDate);
+    }
+
+    private static final SimpleDateFormat sdfNoSafe = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    public static  String formatDateNoSafe(Date date)throws ParseException {
+        return sdfNoSafe.format(date);
+    }
+
+    public static Date parseNoSafe(String strDate) throws ParseException{
+
+        return sdfNoSafe.parse(strDate);
     }
 }

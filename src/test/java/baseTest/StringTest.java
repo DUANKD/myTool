@@ -3,6 +3,10 @@ package baseTest;
 import com.mytool.model.TestModel;
 import org.junit.Test;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author duankd
  * @ClassName MapTest
@@ -22,6 +26,29 @@ public class StringTest {
         testModel.setContext("testStr");
         changeTestModel(testModel);
         System.out.println(testModel.getContext());
+    }
+
+    @Test
+    public void splice() {
+        String testStr1 = "aaa";
+        TestModel testModel = new TestModel();
+        testModel.setContext("testStr");
+        testModel.setLongNumber(null);
+        Date date=null;
+        Date date1=new Date();
+        StringBuilder sb = new StringBuilder();
+        //sb.append(testModel.getContext());
+        //sb.append("\\t");
+        //sb.append(testModel.getLongNumber());
+        //sb.append("\\t");
+        //sb.append(testModel.getLongNumber());
+        //sb.append("\\t");
+        DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sb.append(date==null?"" :dFormat.format(date));
+        sb.append("\\t");
+        sb.append(dFormat.format(date1));
+        sb.append("\\t");
+        System.out.println(sb.toString().replace("null",""));
     }
 
     private static String changeStr(String str) {
