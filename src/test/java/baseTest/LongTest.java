@@ -54,7 +54,7 @@ public class LongTest {
         System.out.println("start  a%b=" + (a % b) + " a&(b-1)=" + (a & (b - 1)));
         for (int i = a; i < 1151; i++) {
             if (i % b == (i & (b - 1))) {
-                System.out.println("i%b==(i&b) a=" + a + " b=" + b);
+                System.out.println("i%b==(i&(b-1)) " + (i & (b - 1)) + " a=" + a + " b=" + b);
             }
         }
         System.out.println("end");
