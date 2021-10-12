@@ -15,12 +15,13 @@ public class MapTest {
 
     @Test
     public void ashMapTest() {
-        Map<String, String> map = new HashMap<>();
+        HashMap<String, String> map = new HashMap<>();
         int cap = 1;
         int n = cap - 1;
         n |= n >>> 1;
         map.put("", "");
         map.get("");
+        map.remove("");
         System.out.println("");
     }
 
@@ -34,6 +35,8 @@ public class MapTest {
         concurrentHashMap.put("a", "a");
         concurrentHashMap.put("b", "a");
         concurrentHashMap.put("b", "a");
+        String result = concurrentHashMap.get("a");
+        concurrentHashMap.remove("a");
         System.out.println(concurrentHashMap);
 
     }

@@ -35,11 +35,28 @@ public class LongTest {
     public void chengFa() {
         Long a = -1L;
         Long b = 1L;
-        Long c=a*-1;
-        if(b.equals(c)){
+        Long c = a * -1;
+        if (b.equals(c)) {
             System.out.println("yes");
-        }else {
+        } else {
             System.out.println("false");
         }
+    }
+
+    /**
+     * X % 2^n = X & (2^n – 1)
+     */
+    @Test
+    public void takeRemainder() {
+        int a = 1050;
+        int b = 1024;
+        System.out.println("start");
+        System.out.println("start  a%b=" + (a % b) + " a&(b-1)=" + (a & (b - 1)));
+        for (int i = a; i < 1151; i++) {
+            if (i % b == (i & (b - 1))) {
+                System.out.println("i%b==(i&b) a=" + a + " b=" + b);
+            }
+        }
+        System.out.println("end");
     }
 }
