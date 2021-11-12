@@ -117,6 +117,7 @@ public class DateUtilTest {
         }
         //wait()方法会释放 CPU 执行权 和 占有的锁。
         //this.wait((long)10*1000);
+        this.notify();
         //sleep(long)方法仅释放 CPU 使用权，锁仍然占用；线程被放入超时等待队列，
         // 与yield 相比，它会使线程较长时间得不到运行。
         try {

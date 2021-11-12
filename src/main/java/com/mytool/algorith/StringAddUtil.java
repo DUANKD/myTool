@@ -16,9 +16,10 @@ public class StringAddUtil {
     public static String Multiply(String num1, String num2) {
         int len1 = num1.length();
         int len2 = num2.length();
+        //倒序
         char[] num1Arr = getReverseOrder(num1);
         char[] num2Arr = getReverseOrder(num2);
-        int len = len1 > len2 ? len1 : len2;
+        int len = Math.max(len1, len2);
         boolean carry = false;
         char[] result = new char[len + 1];
         for (int i = 0; i < len; i++) {
