@@ -4,7 +4,7 @@ import com.mytool.model.TestModel;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * @author duankd
@@ -59,5 +59,14 @@ public class ListTest {
         }
         System.out.println(a);
         System.out.println(b);
+    }
+
+    @Test
+    void arrays() {
+        int[] arrays = {1, 2};
+        int[] arr1 = new int[]{12, 3, 4, 8, 5, 6, 6, 4};
+        int[][] arrays1 = new int[1][];
+        int[][] arrays2 = {{1, 2}, {2, 3, 4}, {3, 4, 5, 6}};
+        Arrays.sort(arrays);
     }
 }
