@@ -9,8 +9,9 @@ class DijkstraTest {
     @Test
     void dijkstra() {
         int[][] weight=initMap();
+        int[][] weight1=initMap();
         int[] result= Dijkstra.dijkstra(weight,0);
-        int[] result1= Dijkstra.stackDijkstra(weight,0);
+        int[] result1= Dijkstra.stackDijkstra(weight1,0);
         System.out.println("result:"+result);
         System.out.println("result1:"+result1);
     }
