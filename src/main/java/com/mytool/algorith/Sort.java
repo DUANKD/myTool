@@ -1,5 +1,7 @@
 package com.mytool.algorith;
 
+import com.mytool.base.utils.BinaryTree;
+
 /**
  * @author duankd
  * @ClassName Sort
@@ -30,14 +32,16 @@ public class Sort {
         int base = array[left];
         while (left < right) {
             // 从序列右端开始，向左遍历，直到找到小于base的数
-            while (left < right && array[right] >= base)
+            while (left < right && array[right] >= base) {
                 right--;
+            }
             // 找到了比base小的元素，将这个元素放到最左边的位置
             array[left] = array[right];
 
             // 从序列左端开始，向右遍历，直到找到大于base的数
-            while (left < right && array[left] <= base)
+            while (left < right && array[left] <= base) {
                 left++;
+            }
             // 找到了比base大的元素，将这个元素放到最右边的位置
             array[right] = array[left];
         }
@@ -80,10 +84,10 @@ public class Sort {
     }
 
 
-    private static void heapify(int[] arr, int len, int i) {    // 堆调整
-        int left = 2 * i + 1,
-                right = 2 * i + 2,
-                largest = i;
+    private static void heapify(int[] arr, int index, int len) {    // 堆调整
+        int left = 2 * index + 1;
+        int right = 2 * index + 2;
+        int largest = index;
 
         if (left < len && arr[left] > arr[largest]) {
             largest = left;
@@ -93,22 +97,46 @@ public class Sort {
             largest = right;
         }
 
-        if (largest != i) {
-            swap(arr, i, largest);
-            heapify(arr, len - 1, largest);
+        if (largest != index) {
+            swap(arr, index, largest);
+            heapify(arr, largest, len - 1);
         }
     }
 
     public static int[] heapSort(int[] arr) {
         int len = arr.length;
         for (int i = len / 2 - 1; i >= 0; i--) {
-            heapify(arr, len, i);
+            heapify(arr, i, len);
         }
-        for (int i = len - 1; i >= 0; i--) {
+        for (int i = len - 1; i > 0; i--) {
             swap(arr, 0, i);
 
-            heapify(arr, i, 0);
+            heapify(arr, 0, i);
+            System.out.printf("第%d次：\n", len - i);
+            printArrayToTree(arr);
         }
         return arr;
+    }
+
+    private static void printArrayToTree(int[] array) {
+        BinaryTree.printTree(BinaryTree.arraysToTree(array), array.length);
+    }
+
+    private static void printArrayTree(int[] array) {
+        int dep = (int) Math.floor(Math.log(array.length));
+        String[][] tree = new String[2 * dep - 1][2 * dep - 1];
+        for (int floor = 1; floor <= dep; floor++) {
+            int temp = (int) Math.pow(2, floor - 1) - 1;
+
+        }
+    }
+
+
+    private static int getParentByLeft(int left) {
+        return (left - 1) / 2;
+    }
+
+    private static int getParentByRight(int right) {
+        return (right - 2) / 2;
     }
 }

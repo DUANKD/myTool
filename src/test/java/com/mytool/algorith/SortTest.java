@@ -8,7 +8,7 @@ class SortTest {
 
     @Test
     void quickSort() {
-        int[] arrays = {12, 1, 5, 9, 13, 8, 3, 7, 15, 2};
+        int[] arrays = {12, 1, 5, 9, 13, 8, 3, 7, 15, 2, 4, 6, 10, 11, 14};
         int[] result = Sort.quickSort(arrays, 0, arrays.length - 1);
         int[] result1 = Sort.quickSortDouble(arrays, 0, arrays.length - 1);
         System.out.println("result:" + Arrays.toString(result));
@@ -17,7 +17,7 @@ class SortTest {
 
     @Test
     void heapSort() {
-        int[] arrays = {12, 1, 5, 9, 13, 8, 3, 7, 15, 2};
+        int[] arrays = {12, 1, 5, 9, 13, 8, 3, 7, 15, 2, 4, 6, 10, 11, 14};
         int[] result = Sort.heapSort(arrays);
         System.out.println("result:" + Arrays.toString(result));
     }
