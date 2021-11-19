@@ -52,7 +52,6 @@ public class LongestPalindrome {
                 center = i;
                 right = i + P[i];
             }
-
         }
 
         // 找出 P 的最大值
