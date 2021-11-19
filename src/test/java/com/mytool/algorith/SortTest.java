@@ -14,4 +14,11 @@ class SortTest {
         System.out.println("result:" + Arrays.toString(result));
         System.out.println("result1:" + Arrays.toString(result1));
     }
+
+    @Test
+    void heapSort() {
+        int[] arrays = {12, 1, 5, 9, 13, 8, 3, 7, 15, 2};
+        int[] result = Sort.heapSort(arrays);
+        System.out.println("result:" + Arrays.toString(result));
+    }
 }

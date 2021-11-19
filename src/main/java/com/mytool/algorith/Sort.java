@@ -78,4 +78,37 @@ public class Sort {
         arr[i] = arr[j];
         arr[j] = temp;
     }
+
+
+    private static void heapify(int[] arr, int len, int i) {    // 堆调整
+        int left = 2 * i + 1,
+                right = 2 * i + 2,
+                largest = i;
+
+        if (left < len && arr[left] > arr[largest]) {
+            largest = left;
+        }
+
+        if (right < len && arr[right] > arr[largest]) {
+            largest = right;
+        }
+
+        if (largest != i) {
+            swap(arr, i, largest);
+            heapify(arr, len - 1, largest);
+        }
+    }
+
+    public static int[] heapSort(int[] arr) {
+        int len = arr.length;
+        for (int i = len / 2 - 1; i >= 0; i--) {
+            heapify(arr, len, i);
+        }
+        for (int i = len - 1; i >= 0; i--) {
+            swap(arr, 0, i);
+
+            heapify(arr, i, 0);
+        }
+        return arr;
+    }
 }
