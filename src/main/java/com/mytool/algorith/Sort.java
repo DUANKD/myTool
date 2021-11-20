@@ -83,8 +83,8 @@ public class Sort {
         arr[j] = temp;
     }
 
-
-    private static void heapify(int[] arr, int index, int len) {    // 堆调整
+    // 堆调整
+    private static void heapify(int[] arr, int index, int len) {
         int left = 2 * index + 1;
         int right = 2 * index + 2;
         int largest = index;
@@ -101,6 +101,23 @@ public class Sort {
             swap(arr, index, largest);
             heapify(arr, largest, len - 1);
         }
+    }
+
+    // 堆调整
+    private static void adjustHeap(int[] arr, int index, int len) {
+        int temp = arr[index];
+        for (int k = 2 * index + 1; k < len; k = 2 * k + 1) {
+            if (k + 1 < len && arr[k] < arr[k + 1]) {
+                k++;
+            }
+            if (arr[k] > temp) {
+                arr[index] = arr[k];
+                index = k;
+            } else {
+                break;
+            }
+        }
+        arr[index] = temp;
     }
 
     public static int[] heapSort(int[] arr) {
