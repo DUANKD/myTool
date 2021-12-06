@@ -53,7 +53,7 @@ public class Singleton {
     public static class Singleton2 implements Serializable, Cloneable {
         //默认是第一次创建
         private static volatile boolean isCreate = false;
-        // 指向自己实例的私有静态引用，被动创建
+        // 指向自己实例的私有静态引用，被动创建 防止指令被编排导致线程不安全的情况
         private static volatile Singleton2 instance = null;
 
         // 私有化构造方法
