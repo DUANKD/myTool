@@ -1,10 +1,9 @@
 package baseTest;
 
+import com.mytool.model.TestModel;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -36,6 +35,7 @@ public class MapTest {
         concurrentHashMap.put("a", "a");
         concurrentHashMap.put("b", "a");
         concurrentHashMap.put("b", "a");
+        concurrentHashMap.size();
         String result = concurrentHashMap.get("a");
         concurrentHashMap.remove("a");
         System.out.println(concurrentHashMap);
@@ -67,6 +67,45 @@ public class MapTest {
 
         //r进制转10进制 -radix进制的字符串s转10进制
         String s = "10101";//1+4+16==21
-        System.out.println(Integer.parseInt(s,2));//结果是21
+        System.out.println(Integer.parseInt(s, 2));//结果是21
+    }
+
+    @Test
+    public void hashMapTest() {
+        Map<String, TestModel> map = new HashMap<>(16);
+        List<TestModel> list = new ArrayList<>();
+        TestModel testModel = new TestModel();
+        testModel.setLongNumber(1L);
+        map.put("1", testModel);
+        list.add(testModel);
+        {
+
+            TestModel testModel1 = map.get("1");
+            testModel1.setLongNumber(2L);
+
+            TestModel testModel2 = new TestModel();
+            testModel2.setLongNumber(333L);
+            testModel1 = testModel2;
+        }
+        map.remove("");
+        System.out.println(map.get("1"));
+        System.out.println(map);
+        System.out.println(list);
+        Map<String, TestModel> map1 = map;
+        {
+
+            TestModel testModel1 = map1.get("1");
+            testModel1.setLongNumber(78L);
+
+            TestModel testModel2 = new TestModel();
+            testModel2.setLongNumber(44L);
+            testModel1 = testModel2;
+            map1.put("3", testModel);
+            System.out.println("map1:"+map1);
+            System.out.println("map:"+map);
+
+        }
+        Long a = null;
+        System.out.println("result_" + a);
     }
 }

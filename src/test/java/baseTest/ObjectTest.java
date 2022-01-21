@@ -1,5 +1,7 @@
 package baseTest;
 
+import com.mytool.model.TestModel;
+import com.mytool.model.TestModelOver;
 import org.junit.Test;
 
 import java.util.Date;
@@ -27,5 +29,15 @@ public class ObjectTest {
         if(Objects.equals(date,date2)){
             System.out.println("3---Objects.equals(date,date2)");
         }
+    }
+
+    @Test
+    public void toStringTest() {
+        TestModel testModel=new TestModel();
+        TestModelOver testModelOver=new TestModelOver();
+        testModelOver.setContext("context");
+        testModelOver.setContext1("context1");
+        testModel=testModelOver;
+        System.out.println(testModel.toString());
     }
 }

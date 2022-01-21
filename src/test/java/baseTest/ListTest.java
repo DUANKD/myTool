@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author duankd
@@ -68,5 +69,13 @@ public class ListTest {
         int[][] arrays1 = new int[1][];
         int[][] arrays2 = {{1, 2}, {2, 3, 4}, {3, 4, 5, 6}};
         Arrays.sort(arrays);
+    }
+
+    @Test
+    void arrayssubList() {
+        List<Integer> a = new ArrayList<>();
+        a.addAll(Arrays.asList(12, 3, 4, 8, 5, 6, 6, 4));
+        List<Integer> b = a.subList(1,8);
+        System.out.println(b);
     }
 }

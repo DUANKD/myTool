@@ -3,6 +3,11 @@ package baseTest;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.function.Function;
+
 /**
  * @author duankd
  * @ClassName LambdaTest
@@ -13,14 +18,6 @@ public class LambdaTest {
     @FunctionalInterface
     public interface StringFilter {
         boolean matches(String var1);
-    }
-
-    static class StringFilterImpl implements StringFilter {
-        @Override
-        public boolean matches(String var1) {
-            System.out.println("aaa");
-            return true;
-        }
     }
 
     static boolean isEmpty(String s) {
@@ -38,5 +35,28 @@ public class LambdaTest {
         StringFilter stringFilter = (a) -> isEmpty(a);
         boolean result = selectMethods(str, stringFilter);
         System.out.println(result);
+    }
+
+
+    private static Map<String, Function<String,String>> functionMap=new HashMap<>();
+
+    private static void initFunctionMap(){
+        functionMap.put("判空",resourceId-> String.valueOf(isEmpty(resourceId)));
+        functionMap.put("小写",resourceId->resourceId.toLowerCase());
+        functionMap.put("大写",resourceId->resourceId.toUpperCase());
+        functionMap.put("替换",resourceId->resourceId.replaceAll("a","b"));
+    }
+
+    @Test
+    public void functionTest() {
+        initFunctionMap();
+        String data="aaaa";
+        for (Map.Entry<String, Function<String, String>> entry : functionMap.entrySet()) {
+            String request=entry.getKey();
+            Function<String,String> function=functionMap.get(request);
+            String result= function.apply(data);
+            System.out.println(" 处理方法："+request +" ，结果："+result);
+        }
+        System.out.println("结束！");
     }
 }

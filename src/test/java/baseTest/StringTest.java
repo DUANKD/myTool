@@ -1,6 +1,8 @@
 package baseTest;
 
 import com.mytool.model.TestModel;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 
 import java.text.DateFormat;
@@ -34,8 +36,8 @@ public class StringTest {
         TestModel testModel = new TestModel();
         testModel.setContext("testStr");
         testModel.setLongNumber(null);
-        Date date=null;
-        Date date1=new Date();
+        Date date = null;
+        Date date1 = new Date();
         StringBuilder sb = new StringBuilder();
         //sb.append(testModel.getContext());
         //sb.append("\\t");
@@ -44,11 +46,14 @@ public class StringTest {
         //sb.append(testModel.getLongNumber());
         //sb.append("\\t");
         DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sb.append(date==null?"" :dFormat.format(date));
+        sb.append(date == null ? "" : dFormat.format(date));
         sb.append("\\t");
         sb.append(dFormat.format(date1));
         sb.append("\\t");
-        System.out.println(sb.toString().replace("null",""));
+        System.out.println(sb.toString().replace("null", ""));
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("aaa");
+        String str = stringBuffer.toString();
     }
 
     private static String changeStr(String str) {
@@ -73,6 +78,9 @@ public class StringTest {
         long intNum = Long.parseLong(rights);
         long result = intNum | 0b000000000000;
         System.out.println(result);
+        Long a = null;
+        String aStr = StringUtils.defaultIfEmpty(""+a, "aaa");
+        System.out.println(aStr);
     }
 
     @Test
@@ -103,7 +111,28 @@ public class StringTest {
     @Test
     public void name2() {
         String cookieStr = "Cookie[JSESSIONID=aaaXvbOrHb-hh9_18aNRx]";
-        String result = cookieStr.substring(cookieStr.indexOf("[")+1, cookieStr.lastIndexOf("]"));
+        String result = cookieStr.substring(cookieStr.indexOf("[") + 1, cookieStr.lastIndexOf("]"));
         System.out.println(result);
+    }
+
+    @Test
+    public void arrayContain() {
+        String[] uris = {"abc[2]", "abc", "[2]"};
+        String uri = "abc";
+        boolean result = ArrayUtils.contains(uris, uri);
+        int index = ArrayUtils.indexOf(uris, uri);
+        System.out.printf("结果%s %d\n", result, index);
+    }
+
+    @Test
+    public void transfer() {
+        String s="begin";
+        change(s);
+        System.out.println(s);
+    }
+
+    private void change(String s){
+        //s="change";
+        s=new String("change new");
     }
 }

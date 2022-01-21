@@ -43,6 +43,16 @@ public class LongTest {
         }
     }
 
+    @Test
+    public void chuFa() {
+        Long a = 5000L;
+        Long b = 0L;
+        Long c = b / 60;
+        long c1=(long)Math.ceil((double)b / 60);
+        long d=a-c;
+        System.out.println(d);
+    }
+
     /**
      * X % 2^n = X & (2^n – 1)
      */
@@ -58,5 +68,11 @@ public class LongTest {
             }
         }
         System.out.println("end");
+    }
+
+    @Test
+    public void printOut() {
+        Long a=null;
+        System.out.println("a="+String.valueOf(a));
     }
 }
