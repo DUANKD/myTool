@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE >ALL -->
+<!-- status：设置log4j2本身的日志信息打印级别，可以不设置。当设置为info及以下级别时，在更改当前log4j2.xml文件后，自动检测功能发现xml文件有更改，将会打印更改日志，可以在console中看到。因此该status是log4j2.xml文件的日志设置。 -->
+<!-- monitorInterval：设置间隔时间，单位为秒。Log4j2能够自动检测修改，并在monitorInterval设定的时间周期重新加载配置，无需重启应用 -->
+<!--<configuration status="info" monitorInterval="5">-->
+<configuration status="debug">
+
+    <!-- 自定义属性 -->
+    <Properties>
+        <!-- 缺省配置（用于开发环境），配置日志文件输出目录和动态参数。其他环境需要在VM参数中指定； -->
+        <!-- “sys:”表示：如果VM参数中没指定这个变量值，则使用本文件中定义的缺省全局变量值 -->
+        <!--<Property name="instance">new_pub</Property>-->
+        <property name="APP_DIR" value="/data/logs/myTool"/>
+        <!--设置系统日志目录-->
+        <property name="LOG_PATH" value="logs"/>
+    </Properties>
+
+    <!-- 定义所有的appender -->
+    <Appenders>
+        <!--这个是输出控制台的配置-->
+        <!-- name:指定Appender的名字 -->
+        <!-- target:SYSTEM_OUT 或 SYSTEM_ERR,一般只设置默认:SYSTEM_OUT -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--输出日志的格式-->
+            <!-- PatternLayout:输出格式，不设置默认为:%m%n -->
+            <!--<PatternLayout charset="UTF-8"  pattern="[%d{HH:mm:ss:SSS}] [%level] [%l] - %message%n"/>-->
+            <!--<PatternLayout charset="UTF-8"  pattern="[%d] [%-5p] %t %c{1} - %m%n"/>-->
+
+            <Filters>
+                <ThresholdFilter level="info" onMatch="accept" onMismatch="deny"/>
+            </Filters>
+        </Console>
+
+        <!-- info及以上级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <!-- name:指定Appender的名字 -->
+        <!-- fileName:指定输出日志的目的文件带全路径的文件名 -->
+        <!-- filePattern:指定新建日志文件的名称格式 -->
+        <RollingRandomAccessFile name="infoLog"
+                                 fileName="${APP_DIR}/${LOG_PATH}/log_total.log"
+                                 filePattern="${APP_DIR}/${LOG_PATH}/log-total-%d{yyyy-MM-dd}.%i.log"
+                                 append="true">
+
+            <!-- PatternLayout:日志输出格式，不设置默认为:%m%n -->
+            <!-- <PatternLayout pattern="[%date{yyyy-MM-dd HH:mm:ss.SSS}][%thread][%level][%class][%line]:%message%n"/> -->
+            <!--<PatternLayout charset="UTF-8"  pattern="[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%level] [%thread] [%l] - %message%n"/>-->
+            <PatternLayout charset="UTF-8"  pattern="[%d] [%-5p] %t %c{1} - %m%n"/>
+
+            <!-- 过滤器 -->
+            <!-- 注意，这里要做一些特点说明： -->
+            <!-- 等级大小关系为：OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE >ALL。 -->
+            <!-- 在ThresholdFilter配置中，level属性是用来标识“匹配范围”的，且“被匹配（onMatch）范围”为该level及其以上的等级（例如level="WARN"，那么onMatch范围为“OFF,FATAL,ERROR,WARN”），而“未匹配（onMismatch）范围”为所匹配途中剩下未被匹配的范围（例如level="WARN"，那么onMismatch范围为“INFO,DEBUG,TRACE,ALL”）。 -->
+            <!-- 需要注意，如果在一个<Filters>里面有多个<ThresholdFilter>，那么这些<ThresholdFilter>的书写是有上下关系的。 -->
+            <!-- 写在上面的<ThresholdFilter>将通过level属性确定了已经匹配过的范围，那么，写在下面的<ThresholdFilter>的level必须在未被匹配的范围内选择，否则将无法生效（例如第一个<ThresholdFilter>中的level="WARN"，那么第二个<ThresholdFilter>中的level属性值只能在“INFO、DEBUG、TRACE、ALL”里面选择）。 -->
+            <!-- 因此，我们做一个规定： -->
+            <!-- 在一个含有多个<ThresholdFilter>的<Filters>里面，在从上到下的<ThresholdFilter>列表顺序中，每一个<ThresholdFilter>中的level属性值我们规定必须由高等级至低等级填写。 -->
+            <!-- 例如： -->
+            <!--
+                <ThresholdFilter level="ERROR" onMatch="XXX" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="WARN" onMatch="XXX" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="INFO" onMatch="XXX" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="DEBUG" onMatch="XXX" onMismatch="XXX"/>
+            -->
+            <Filters>
+                <!-- onMatch="ACCEPT" 表示允许该级别及以上的日志 -->
+                <!-- onMatch="DENY" 表示拒绝该级别及以上的日志 -->
+                <!-- onMatch="NEUTRAL" 表示中立，该级别及以上的日志的onMatch通过性，将由下一个ThresholdFilter的onMatch属性处理，如果当前ThresholdFilter是最后一个，则表示允许该级别及以上的日志 -->
+                <!-- onMismatch="ACCEPT" 表示允许该级别以下的日志，同时不再往下检索ThresholdFilter，后面的ThresholdFilter将不会生效 -->
+                <!-- onMismatch="DENY" 表示拒绝该级别以下的日志，同时不再往下检索ThresholdFilter，后面的ThresholdFilter将不会生效 -->
+                <!-- onMismatch="NEUTRAL" 表示中立，该级别以下的日志的onMismatch通过性，将由下一个ThresholdFilter的onMismatch属性处理，如果当前是最后一个，则允许该级别以下的日志-->
+                <!-- level属性缺省，默认为level="ERROR"，注意：缺省意思是没有该属性，而非level=""，那是会报错的 -->
+                <!-- onMatch属性缺省，默认为onMatch="accept"，注意：缺省意思是没有该属性，而非onMatch=""，那是会报错的 -->
+                <!-- onMismatch属性缺省，默认为onMismatch="deny"，注意：缺省意思是没有该属性，而非onMismatch=""，那是会报错的 -->
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+
+            <!-- Policies:指定滚动日志的策略，就是什么时候进行新建日志文件输出日志 -->
+            <Policies>
+                <!-- 基于时间的滚动策略 -->
+                <!-- interval：表示历史日志封存间隔时间，单位为hour，默认是1 -->
+                <!-- modulate：表示是否历史日志生成时间纠偏，纠偏以零点为基准进行。比如：17:30生成了${instance}-info-2019032817.log.gz文件，那么纠偏后会在18:00生成${instance}-info-2019032818.log.gz -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- 基于指定文件大小的滚动策略，size属性用来定义每个日志文件的大小 -->
+                <SizeBasedTriggeringPolicy size="500MB"/>
+            </Policies>
+
+            <!-- DefaultRolloverStrategy:用来指定同一个文件夹下最多有几个(通过max属性定义)日志文件时开始删除最旧的，创建新的 -->
+            <DefaultRolloverStrategy max="20">
+                <Delete basePath="${APP_DIR}/${LOG_PATH}" maxDepth="1">
+                    <IfFileName glob="*.log"/>
+                    <!-- 小时：H，天：d -->
+                    <IfLastModified age="180d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+
+        <!-- warn级别的日志信息 -->
+        <RollingRandomAccessFile name="warnLog"
+                                 fileName="${APP_DIR}/${LOG_PATH}/log_warn.log"
+                                 filePattern="${APP_DIR}/${LOG_PATH}/log-warn-%d{yyyy-MM-dd}.%i.log"
+                                 append="true">
+            <PatternLayout charset="UTF-8" pattern="[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%level] [%thread] [%l] - %message%n"/>
+
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="500MB"/>
+            </Policies>
+        </RollingRandomAccessFile>
+
+        <!-- error级别的日志信息 -->
+        <RollingRandomAccessFile name="errorLog"
+                                 fileName="${APP_DIR}/${LOG_PATH}/log_error.log"
+                                 filePattern="${APP_DIR}/${LOG_PATH}/log-error-%d{yyyy-MM-dd}.%i.log"
+                                 append="true">
+            <PatternLayout charset="UTF-8" pattern="[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%level] [%thread] [%l] - %message%n"/>
+
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="infoLog1"
+                                 fileName="${APP_DIR}/${LOG_PATH}/infoLog1.log"
+                                 filePattern="${APP_DIR}/${LOG_PATH}/infoLog1-%d{yyyy-MM-dd}.%i.log"
+                                 append="true">
+
+            <!-- PatternLayout:日志输出格式，不设置默认为:%m%n -->
+            <!-- <PatternLayout pattern="[%date{yyyy-MM-dd HH:mm:ss.SSS}][%thread][%level][%class][%line]:%message%n"/> -->
+            <PatternLayout charset="UTF-8"  pattern="[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%level] [%thread] [%l] - %message%n"/>
+
+
+            <Filters>
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+
+            <!-- Policies:指定滚动日志的策略，就是什么时候进行新建日志文件输出日志 -->
+            <Policies>
+                <!-- 基于时间的滚动策略 -->
+                <!-- interval：表示历史日志封存间隔时间，单位为hour，默认是1 -->
+                <!-- modulate：表示是否历史日志生成时间纠偏，纠偏以零点为基准进行。比如：17:30生成了${instance}-info-2019032817.log.gz文件，那么纠偏后会在18:00生成${instance}-info-2019032818.log.gz -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- 基于指定文件大小的滚动策略，size属性用来定义每个日志文件的大小 -->
+                <SizeBasedTriggeringPolicy size="500MB"/>
+            </Policies>
+
+            <!-- DefaultRolloverStrategy:用来指定同一个文件夹下最多有几个(通过max属性定义)日志文件时开始删除最旧的，创建新的 -->
+            <DefaultRolloverStrategy max="20">
+                <Delete basePath="${APP_DIR}/${LOG_PATH}" maxDepth="1">
+                    <IfFileName glob="*.log"/>
+                    <IfLastModified age="180d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="infoLog2"
+                                 fileName="${APP_DIR}/${LOG_PATH}/infoLog2.log"
+                                 filePattern="${APP_DIR}/${LOG_PATH}/infoLog2-%d{yyyy-MM-dd}.%i.log"
+                                 append="true">
+
+            <!-- PatternLayout:日志输出格式，不设置默认为:%m%n -->
+            <!-- <PatternLayout pattern="[%date{yyyy-MM-dd HH:mm:ss.SSS}][%thread][%level][%class][%line]:%message%n"/> -->
+            <PatternLayout charset="UTF-8"  pattern="[%date{yyyy-MM-dd HH:mm:ss.SSS}] [%level] [%thread] [%l] - %message%n"/>
+
+
+            <Filters>
+                <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+
+            <!-- Policies:指定滚动日志的策略，就是什么时候进行新建日志文件输出日志 -->
+            <Policies>
+                <!-- 基于时间的滚动策略 -->
+                <!-- interval：表示历史日志封存间隔时间，单位为hour，默认是1 -->
+                <!-- modulate：表示是否历史日志生成时间纠偏，纠偏以零点为基准进行。比如：17:30生成了${instance}-info-2019032817.log.gz文件，那么纠偏后会在18:00生成${instance}-info-2019032818.log.gz -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- 基于指定文件大小的滚动策略，size属性用来定义每个日志文件的大小 -->
+                <SizeBasedTriggeringPolicy size="500MB"/>
+            </Policies>
+
+            <!-- DefaultRolloverStrategy:用来指定同一个文件夹下最多有几个(通过max属性定义)日志文件时开始删除最旧的，创建新的 -->
+            <DefaultRolloverStrategy max="20">
+                <Delete basePath="${APP_DIR}/${LOG_PATH}" maxDepth="1">
+                    <IfFileName glob="*.log"/>
+                    <IfLastModified age="180d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+
+    </Appenders>
+
+    <!-- 用来配置Logger，包含一个root和若干个logger -->
+    <!-- additivity指定是否同时输出当前logger的父类的日志，缺省为true -->
+    <!-- 一个logger可以绑定多个不同的Appender。只有定义了logger并通过AppenderRef引入appender，该appender才会生效 -->
+    <!-- <logger>可以不配置<AppenderRef>，这样可以控制指定的包在控制台的日志打印，而无需考虑日志文件的存储问题 -->
+    <!--     （等效于在application.properties文件配置logging.level.xxx=LEVEL，xxx代指包名，如org.apache.kafka，LEVEL代指日志基本，如error等） -->
+    <!--     （例如要屏蔽org.apache.kafka包下的所用日志打印，则可以这样写logging.level.org.apache.kafka=off） -->
+    <Loggers>
+        <!-- Logger节点用来单独指定日志的形式，比如要为指定包下的class指定不同的日志级别等 -->
+        <!-- additivity：这个属性的意思是需不需要打印此logger继承的父logger，默认为true，如果是false则只打印当前logger；如果是true则继续打印上一层的logger，直到root -->
+        <logger name="org.springframework" level="info" additivity="true">
+            <AppenderRef ref="warnLog"/>
+            <AppenderRef ref="errorLog"/>
+        </logger>
+
+        <!-- 屏蔽kafka的日志打印 -->
+        <!--<logger name="org.apache.kafka" level="off"></logger>-->
+
+
+        <logger name="com.cn21.media.livestream.api.web" level="info" additivity="false">
+            <appender-ref ref="infoLog"/>
+        </logger>
+
+        <logger name="infoLog1" level="info" additivity="false">
+            <!--<appender-ref ref="infoLog1"/>-->
+            <appender-ref ref="Console"/>
+        </logger>
+
+        <logger name="infoLog2" level="info" additivity="false">
+            <!--<appender-ref ref="infoLog2"/>-->
+            <appender-ref ref="Console"/>
+        </logger>
+
+        <!--<logger name="com.cn21.media.livestream.api.component" level="info" additivity="false">
+            <appender-ref ref="Console"/>
+            <AppenderRef ref="infoLog"/>
+            <AppenderRef ref="warnLog"/>
+            <AppenderRef ref="errorLog"/>
+            <AppenderRef ref="testLog"/>
+        </logger>-->
+
+        <!-- Root节点用来指定项目的根日志，如果没有类似上面所配置的单独指定的logger，那么就会默认使用该Root日志输出 -->
+        <!-- <Root level="ALL" includeLocation="true"> -->
+        <Root level="debug" includeLocation="true">
+            <!-- 用来指定该日志输出到哪个Appender -->
+            <!--<AppenderRef ref="errorLog"/>-->
+            <!--<AppenderRef ref="infoLog"/>-->
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <!-- AsyncRoot - 异步记录日志 - 需要LMAXDisruptor的支持 -->
+        <!--
+        <AsyncRoot level="info" additivity="false">
+          <AppenderRef ref="Console"/>
+          <AppenderRef ref="infoLog"/>
+          <AppenderRef ref="errorLog"/>
+        </AsyncRoot>
+        -->
+    </Loggers>
+</configuration>
