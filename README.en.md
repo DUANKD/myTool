@@ -1,22 +1,18 @@
 # myTool
 
 #### Description
-私有工具
+This is a collection of methods that I have resulted in problems during the development process, and I have opened it up as a tool to the community, hoping to help some people in need
 
 #### Software Architecture
 Software architecture description
 
 #### Installation
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  just use
 
 #### Instructions
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  just use as you like
 
 #### Contribution
 
