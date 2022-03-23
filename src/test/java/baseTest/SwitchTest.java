@@ -24,4 +24,5 @@ public class SwitchTest {
                 System.out.println("default");
         }
     }
+
 }
