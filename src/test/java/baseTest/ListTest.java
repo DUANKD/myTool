@@ -1,5 +1,6 @@
 package baseTest;
 
+import com.google.common.collect.Lists;
 import com.mytool.model.TestModel;
 import org.junit.jupiter.api.Test;
 
@@ -77,5 +78,18 @@ public class ListTest {
         a.addAll(Arrays.asList(12, 3, 4, 8, 5, 6, 6, 4));
         List<Integer> b = a.subList(1,8);
         System.out.println(b);
+    }
+
+    @Test
+    void contains() {
+        Long a=1L;
+        Long a1=new Long(1);
+        Long a2=null;
+        Long a3=200L;
+        List<Long> list = Lists.newArrayList(new Long(1), new Long(200));
+        System.out.println("a:"+list.contains(a));
+        System.out.println("a1:"+list.contains(a1));
+        System.out.println("a2:"+list.contains(a2));
+        System.out.println("a3:"+list.contains(a3));
     }
 }

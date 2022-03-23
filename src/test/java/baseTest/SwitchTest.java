@@ -13,13 +13,15 @@ public class SwitchTest {
     @Test
     public void switchT() {
         String a = "4";
-        switch (a) {
+        switch (a == null ? "" : a) {
             case Abc:
-                System.out.println("result "+Abc);
+                System.out.println("result " + Abc);
                 break;
             case "1":
                 System.out.println(1);
                 break;
+            default:
+                System.out.println("default");
         }
     }
 }

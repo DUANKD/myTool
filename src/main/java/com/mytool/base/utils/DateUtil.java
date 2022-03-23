@@ -1,6 +1,8 @@
 package com.mytool.base.utils;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,6 +21,8 @@ import java.util.Date;
  * @date 2021-02-05 10:45:52
  */
 public class DateUtil {
+
+    private static final Logger log = LoggerFactory.getLogger(DateUtil.class);
 
 
     public static final String full_pattern = "yyyy-MM-dd HH:mm:ss";
@@ -357,5 +361,19 @@ public class DateUtil {
     public static Date parseNoSafe(String strDate) throws ParseException{
 
         return sdfNoSafe.parse(strDate);
+    }
+
+    /*
+      Date转换为时间戳
+     */
+    public static Long  toUnixTime(Date date) {
+        long unix;
+        try {
+            unix = date.getTime() / 1000;
+        } catch (Exception e) {
+            log.error("date={},e={}", date, e);
+            return -1L;
+        }
+        return unix;
     }
 }
