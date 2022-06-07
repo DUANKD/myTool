@@ -26,4 +26,13 @@ public class ForTest {
             }
         });
     }*/
+
+    @Test
+    void name() {
+        int a=0;
+        for (int i = 0; i < a; i++) {
+            System.out.println("第"+i);
+        }
+        System.out.println("end");
+    }
 }
