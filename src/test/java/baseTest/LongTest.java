@@ -48,8 +48,8 @@ public class LongTest {
         Long a = 5000L;
         Long b = 0L;
         Long c = b / 60;
-        long c1=(long)Math.ceil((double)b / 60);
-        long d=a-c;
+        long c1 = (long) Math.ceil((double) b / 60);
+        long d = a - c;
         System.out.println(d);
     }
 
@@ -72,7 +72,19 @@ public class LongTest {
 
     @Test
     public void printOut() {
-        Long a=null;
-        System.out.println("a="+String.valueOf(a));
+        Long a = null;
+        System.out.println("a=" + String.valueOf(a));
+    }
+
+    @Test
+    public void lastFive() {
+        long uid = 12345678L;
+        long a = System.currentTimeMillis();
+        long b = System.currentTimeMillis() % 100000;
+        System.out.println(String.valueOf(uid) + System.currentTimeMillis() % 100000 + "");
+        System.out.println("" + uid + System.currentTimeMillis() % 100000);
+        System.out.println(uid + "" + System.currentTimeMillis() % 100000);
+
+        System.out.println("b:" + b);
     }
 }

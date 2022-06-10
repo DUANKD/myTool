@@ -139,6 +139,20 @@ public class JsonTransformTest {
     }
 
     @Test
+    public void mapIntToStr() {
+        Map<Integer, Long> map = new HashMap<>();
+
+        map.put(1, 111L);
+        map.put(2, 222L);
+
+        String value = JSON.toJSONString(map);
+        Map<Integer, Long> map1 = JSON.parseObject(value, new TypeReference<HashMap<Integer, Long>>() {
+        });
+        System.out.println(map1);
+        System.out.println(map1.equals(map));
+    }
+
+    @Test
     public void jsonTransform4Str() {
         String str = "{\"context\":\"aaa\",\"longNumber\":1,\"longNumber2\":2}";
         TestModel testModel = JSON.parseObject(str, TestModel.class);
